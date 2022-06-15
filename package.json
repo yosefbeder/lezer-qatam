@@ -1,8 +1,9 @@
 {
   "name": "lezer-qatam",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A qatam lezer grammar",
   "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     "import": "./dist/index.es.js",
     "require": "./dist/index.cjs"
