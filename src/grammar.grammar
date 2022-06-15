@@ -1,0 +1,136 @@
+@external tokens endToken from "./tokens.js" { end }
+
+@external propSource highlight from "./highlight"
+
+@precedence { postfix @left, prefix, times @left, plus @left, cmp @left, eq @left, and @left, or @left, set @right, block @cut }
+
+@top Program { decl* }
+
+kw<word> { @specialize[@name={word}]<identifier, word> }
+
+list<item> { item ("،" item)* "،"? }
+
+VarDef { identifier }
+
+decl { 
+  VarDecl | FuncDecl |
+  
+  ImportDecl { kw<"استورد"> VarDef kw<"من"> String } |
+
+  ExportDecl { kw<"صدر"> (VarDecl | FuncDecl) } |
+
+  stml
+}
+
+VarDecl { kw<"متغير"> VarDef "=" expr end }
+
+FuncDecl { kw<"دالة"> VarDef Params Block }
+
+Params { "(" list<VarDef>? ")" }
+
+stml { 
+  IfElseStml { kw<"إن"> "(" expr ")" Block (kw<"إلا"> Block)? } |
+  
+  WhileStml { kw<"طالما"> "(" expr ")" Block } |
+
+  LoopStml { kw<"كرر"> Block } |
+
+  TryCatchStml { kw<"جرب"> Block kw<"أمسك"> "(" VarDef ")" Block } |
+
+  ReturnStml { kw<"أرجع"> expr? end } |
+
+  ThrowStml { kw<"ألقي"> expr? end } |
+
+  BreakStml { kw<"قف"> } |
+
+  ContinueStml { kw<"أكمل"> } |
+
+  Block |
+
+  expr end
+}
+
+Block { !block "{" decl* "}" }
+
+VarName { identifier }
+
+PropDef { identifier }
+
+PropName { identifier }
+
+minus[@dynamicPrecedence=1] { ArithOp<"-"> }
+
+neg { ArithOp<"-"> }
+
+binaryExprTail {
+  !plus (ArithOp<"+"> | minus) expr |
+  !times ArithOp<"*" | "/" | "%"> expr |
+  !cmp CmpOp<">" | ">=" | "<" | "<="> expr |
+  !eq CmpOp<"==" | "!="> expr |
+  !and LogicOp<"&&"> expr |
+  !or LogicOp<"||"> expr
+}
+
+expr {
+  VarName |
+
+  String | Number |
+
+  Bool { @specialize<identifier, "صحيح" | "خطأ"> } |
+
+  kw<"عدم"> |
+
+  Object { "{" list<PropDef ":" expr>? "}" } |
+
+  List { "[" list<expr>? "]" } |
+
+  UnaryExpr { !prefix (LogicOp<"!"> | neg) expr } |
+
+  BinaryExpr {
+    expr binaryExprTail
+  } |
+
+  CallExpr { expr !postfix Args } |
+
+  MemberExpr |
+  
+  AssignExpr
+}
+
+Args { "(" list<expr>? ")" } 
+
+MemberExpr { expr !postfix (("[" expr "]") | ("." PropName)) }
+
+AssignExpr {
+  (VarName | MemberExpr) !set "=" expr
+}
+
+@skip { space | newline | Comment }
+
+@tokens {
+  Comment { "#" ![\n]* }
+
+  space { $[\u0009\u000b\u000c\u0020\u0085\u200e\u200f] }
+
+  newline { $[\u000a\u000d\u2028\u2029] }
+
+  identifierChar { (std.asciiLetter | $[_\u{0621}-\u{063a}] | $[\u{0641}-\u{0652}])+ }
+
+  identifier { identifierChar (identifierChar | std.digit)* }
+
+  @precedence { space, newline, identifier }
+
+  String { '"' (![\\\n"] | "\\" _)* '"'? }
+
+  Number { std.digit+ ("." std.digit+)? }
+
+  ArithOp<op> { op }
+
+  CmpOp<op> { op }
+
+  LogicOp<op> { op }
+
+  "=" "." "،"
+
+  "(" ")" "[" "]" "{" "}"
+}

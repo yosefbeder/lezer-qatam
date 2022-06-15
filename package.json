@@ -1,0 +1,31 @@
+{
+  "name": "lezer-qatam",
+  "version": "0.1.0",
+  "description": "A qatam lezer grammar",
+  "main": "./dist/index.cjs",
+  "exports": {
+    "import": "./dist/index.es.js",
+    "require": "./dist/index.cjs"
+  },
+  "module": "./dist/index.es.js",
+  "type": "module",
+  "author": "yosefbeder",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@lezer/generator": "^1.0.0",
+    "rollup": "^2.75.6"
+  },
+  "dependencies": {
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.0.0"
+  },
+  "scripts": {
+    "build": "lezer-generator ./src/grammar.grammar -o ./src/parser.js && rollup -c",
+    "prepare": "yarn build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yosefbeder/lezer-qatam.git"
+  }
+}
