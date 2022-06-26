@@ -3,7 +3,7 @@ import { styleTags, tags } from '@lezer/highlight';
 export const highlight = styleTags({
   'متغير دالة': tags.definitionKeyword,
   'استورد من صدر': tags.moduleKeyword,
-  'إن إلا طالما كرر حاول أمسك أرجع ألقي قف أكمل': tags.controlKeyword,
+  'إن إلا طالما كرر حاول أمسك أرجع ألقي واصل إكسر': tags.controlKeyword,
   String: tags.string,
   VarDef: tags.definition(tags.variableName),
   'FuncDecl/VarDef': tags.function(tags.definition(tags.variableName)),

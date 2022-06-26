@@ -35,15 +35,15 @@ stml {
 
   LoopStml { kw<"كرر"> Block } |
 
-  TryCatchStml { kw<"جرب"> Block kw<"أمسك"> "(" VarDef ")" Block } |
+  TryCatchStml { kw<"حاول"> Block kw<"أمسك"> "(" VarDef ")" Block } |
 
   ReturnStml { kw<"أرجع"> expr? end } |
 
   ThrowStml { kw<"ألقي"> expr? end } |
 
-  BreakStml { kw<"قف"> } |
+  BreakStml { kw<"إكسر"> } |
 
-  ContinueStml { kw<"أكمل"> } |
+  ContinueStml { kw<"واصل"> } |
 
   Block |
 
