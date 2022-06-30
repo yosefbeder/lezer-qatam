@@ -29,7 +29,7 @@ FuncDecl { kw<"دالة"> VarDef Params Block }
 Params { "(" list<VarDef>? ")" }
 
 stml { 
-  IfElseStml { kw<"إن"> "(" expr ")" Block (kw<"إلا"> Block)? } |
+  IfElseStml { kw<"إن"> "(" expr ")" Block (kw<"وإن"> "(" expr ")" Block)* (kw<"إلا"> Block)? } |
   
   WhileStml { kw<"طالما"> "(" expr ")" Block } |
 
