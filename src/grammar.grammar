@@ -102,7 +102,7 @@ Args { "(" list<expr>? ")" }
 MemberExpr { expr !postfix (("[" expr "]") | ("." PropName)) }
 
 AssignExpr {
-  (VarName | MemberExpr) !set "=" expr
+  (VarName | MemberExpr) ((!set UpdateOp<"=" | "*=" | "/=" | "%=" | "+=" | "-="> expr) | (!postfix UpdateOp<"++" | "--">))
 }
 
 @skip { space | newline | Comment }
@@ -129,6 +129,8 @@ AssignExpr {
   CmpOp<op> { op }
 
   LogicOp<op> { op }
+
+  UpdateOp<op> { op }
 
   "=" "." "،"
 

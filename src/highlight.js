@@ -20,7 +20,7 @@ export const highlight = styleTags({
   CmpOp: tags.compareOperator,
   LogicOp: tags.logicOperator,
   '،': tags.separator,
-  '=': tags.updateOperator,
+  UpdateOp: tags.updateOperator,
   '.': tags.derefOperator,
   '( )': tags.paren,
   '[ ]': tags.bracket,
