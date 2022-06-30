@@ -21,6 +21,7 @@ export const highlight = styleTags({
   LogicOp: tags.logicOperator,
   '،': tags.separator,
   UpdateOp: tags.updateOperator,
+  DefOp: tags.definitionOperator,
   '.': tags.derefOperator,
   '( )': tags.paren,
   '[ ]': tags.bracket,

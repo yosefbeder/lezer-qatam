@@ -22,7 +22,7 @@ decl {
   stml
 }
 
-VarDecl { kw<"متغير"> VarDef "=" expr end }
+VarDecl { kw<"متغير"> VarDef DefOp<"="> expr end }
 
 FuncDecl { kw<"دالة"> VarDef Params Block }
 
@@ -132,7 +132,9 @@ AssignExpr {
 
   UpdateOp<op> { op }
 
-  "=" "." "،"
+  DefOp<op> { op }
+
+  "." "،"
 
   "(" ")" "[" "]" "{" "}"
 }
