@@ -26,7 +26,9 @@ VarDecl { kw<"متغير"> VarDef DefOp<"="> expr end }
 
 FuncDecl { kw<"دالة"> VarDef Params Block }
 
-Params { "(" list<VarDef>? ")" }
+param { VarDef }
+
+Params { "(" list<param>? ")" }
 
 stml { 
   IfElseStml { kw<"إن"> "(" expr ")" Block (kw<"وإن"> "(" expr ")" Block)* (kw<"إلا"> Block)? } |
@@ -71,6 +73,10 @@ binaryExprTail {
   !or LogicOp<"||"> expr
 }
 
+LambdaParams {
+  "|" list<param>? "|"
+}
+
 expr {
   VarName |
 
@@ -94,7 +100,11 @@ expr {
 
   MemberExpr |
   
-  AssignExpr
+  AssignExpr |
+
+  Lambda {
+    LambdaParams Block
+  }
 }
 
 Args { "(" list<expr>? ")" } 
