@@ -49,6 +49,8 @@ stml {
 
   Block |
 
+  ForIn { kw<"لكل"> "(" VarDef kw<"في"> expr ")" Block } |
+
   expr end
 }
 
