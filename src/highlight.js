@@ -6,7 +6,9 @@ export const highlight = styleTags({
   'إن وإن إلا طالما كرر حاول أمسك أرجع ألقي واصل إكسر': tags.controlKeyword,
   String: tags.string,
   VarDef: tags.definition(tags.variableName),
-  'FuncDecl/VarDef': tags.function(tags.definition(tags.variableName)),
+  'Params/VarDef LambdaParams/VarDef': tags.function(
+    tags.definition(tags.variableName),
+  ),
   VarName: tags.variableName,
   'CallExpr/VarName': tags.function(tags.variableName),
   PropDef: tags.definition(tags.propertyName),
@@ -23,6 +25,7 @@ export const highlight = styleTags({
   UpdateOp: tags.updateOperator,
   DefOp: tags.definitionOperator,
   '.': tags.derefOperator,
+  '|': tags.punctuation,
   '( )': tags.paren,
   '[ ]': tags.bracket,
   '{ }': tags.brace,
