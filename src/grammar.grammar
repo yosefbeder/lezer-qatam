@@ -4,7 +4,7 @@
 
 @precedence { postfix @left, prefix, times @left, plus @left, cmp @left, eq @left, and @left, or @left, set @right, block @cut }
 
-@top Program { decl* }
+@top Program { stml* }
 
 kw<word> { @specialize[@name={word}]<identifier, word> }
 
@@ -12,30 +12,30 @@ list<item> { item ("،" item)* "،"? }
 
 VarDef { identifier }
 
-decl { 
-  VarDecl | FuncDecl |
-  
-  ImportDecl { kw<"استورد"> VarDef kw<"من"> String } |
-
-  ExportDecl { kw<"صدر"> (VarDecl | FuncDecl) } |
-
-  stml
-}
-
 VarDecl { kw<"متغير"> VarDef DefOp<"="> expr end }
-
-FuncDecl { kw<"دالة"> VarDef Params Block }
 
 param { VarDef }
 
 Params { "(" list<param>? ")" }
 
-stml { 
+FuncDecl { kw<"دالة"> VarDef Params Block }
+
+Block { !block "{" stml* "}" }
+
+stml {
+  VarDecl | FuncDecl |
+  
+  ImportDecl { kw<"استورد"> VarDef kw<"من"> String } |
+
+  ExportDecl { kw<"صدّر"> (VarDecl | FuncDecl) } |
+
   IfElseStml { kw<"إن"> "(" expr ")" Block (kw<"وإن"> "(" expr ")" Block)* (kw<"إلا"> Block)? } |
   
   WhileStml { kw<"طالما"> "(" expr ")" Block } |
 
   LoopStml { kw<"كرر"> Block } |
+
+  ForIn { kw<"لكل"> "(" VarDef kw<"في"> expr ")" Block } |
 
   TryCatchStml { kw<"حاول"> Block kw<"أمسك"> "(" VarDef ")" Block } |
 
@@ -49,12 +49,8 @@ stml {
 
   Block |
 
-  ForIn { kw<"لكل"> "(" VarDef kw<"في"> expr ")" Block } |
-
   expr end
 }
-
-Block { !block "{" decl* "}" }
 
 VarName { identifier }
 
@@ -146,7 +142,7 @@ AssignExpr {
 
   DefOp<op> { op }
 
-  "." "،"
+  "." "،" "|"
 
   "(" ")" "[" "]" "{" "}"
 }
