@@ -100,9 +100,9 @@ expr {
   
   AssignExpr |
 
-  Lambda {
-    LambdaParams Block
-  }
+  Lambda { LambdaParams Block } |
+
+  Group { "(" expr ")" }
 }
 
 Args { "(" list<expr>? ")" } 
