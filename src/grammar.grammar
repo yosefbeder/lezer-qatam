@@ -92,7 +92,7 @@ LambdaParams {
 }
 
 expr {
-  VarName |
+  VarName ~ambig |
 
   String | Number |
 
@@ -100,9 +100,9 @@ expr {
 
   kw<"عدم"> |
 
-  Object { "{" list<PropDef (DefOp<":"> expr)?>? "}" } |
+  Object { "{" list<PropDef ~ambig (DefOp<":"> expr)?>? "}" ~ambig } |
 
-  List { "[" list<expr>? "]" } |
+  List { "[" list<expr>? "]" ~ambig } |
 
   UnaryExpr { !prefix (LogicOp<"!"> | neg) expr } |
 
@@ -112,7 +112,7 @@ expr {
 
   CallExpr { expr !postfix Args } |
 
-  MemberExpr |
+  MemberExpr ~ambig |
   
   AssignExpr |
 
@@ -125,11 +125,23 @@ Args { "(" list<expr>? ")" }
 
 MemberExpr { expr !postfix (("[" expr "]") | ("." PropName)) }
 
+assignable {
+  VarName ~ambig |
+  MemberExpr ~ambig |
+  ObjectDes { "{" list<(PropName ~ambig UpdateOp<":"> assignable) | VarName ~ambig>? "}" ~ambig } |
+  ListDes { "[" list<assignable>? "]" ~ambig }
+}
+
 AssignExpr {
-  (VarName | MemberExpr) ((!set UpdateOp<"=" | "*=" | "/=" | "%=" | "+=" | "-="> expr) | (!postfix UpdateOp<"++" | "--">))
+  assignable !set UpdateOp<"="> expr |
+  (VarName | MemberExpr) !set UpdateOp<"*=" | "/=" | "%=" | "+=" | "-="> expr
 }
 
 @skip { space | newline | Comment }
+
+UpdateOp<op> { op }
+
+DefOp<op> { op }
 
 @tokens {
   Comment { "#" ![\n]* }
@@ -153,10 +165,6 @@ AssignExpr {
   CmpOp<op> { op }
 
   LogicOp<op> { op }
-
-  UpdateOp<op> { op }
-
-  DefOp<op> { op }
 
   "." "،" "|"
 
