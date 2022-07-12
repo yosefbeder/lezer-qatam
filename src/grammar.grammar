@@ -12,9 +12,25 @@ list<item> { item ("،" item)* "،"? }
 
 VarDef { identifier }
 
-VarDecl { kw<"متغير"> VarDef DefOp<"="> expr end }
+ObjectDes { "{" list<(PropName DefOp<":"> definable) | VarDef>? "}" } 
 
-param { VarDef }
+ListDes { "[" list<definable>? "]" }
+
+definable {
+  VarDef |
+  ObjectDes |
+  ListDes
+}
+
+varDeclTail { DefOp<"="> expr end }
+
+singleVarDecl { VarDef (varDeclTail)? }
+
+desVarDecl { (ObjectDes | ListDes) varDeclTail }
+
+VarDecl { kw<"متغير"> (singleVarDecl | desVarDecl) }
+
+param { definable }
 
 Params { "(" list<param>? ")" }
 
@@ -25,7 +41,7 @@ Block { !block "{" stml* "}" }
 stml {
   VarDecl | FuncDecl |
   
-  ImportDecl { kw<"استورد"> VarDef kw<"من"> String } |
+  ImportDecl { kw<"استورد"> definable kw<"من"> String } |
 
   ExportDecl { kw<"صدّر"> (VarDecl | FuncDecl) } |
 
@@ -35,7 +51,7 @@ stml {
 
   LoopStml { kw<"كرر"> Block } |
 
-  ForIn { kw<"لكل"> "(" VarDef kw<"في"> expr ")" Block } |
+  ForIn { kw<"لكل"> "(" definable kw<"في"> expr ")" Block } |
 
   TryCatchStml { kw<"حاول"> Block kw<"أمسك"> "(" VarDef ")" Block } |
 
