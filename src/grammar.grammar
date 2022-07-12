@@ -84,7 +84,7 @@ expr {
 
   kw<"عدم"> |
 
-  Object { "{" list<PropDef (":" expr)?>? "}" } |
+  Object { "{" list<PropDef (DefOp<":"> expr)?>? "}" } |
 
   List { "[" list<expr>? "]" } |
 
