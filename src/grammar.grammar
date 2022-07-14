@@ -32,7 +32,9 @@ VarDecl { kw<"متغير"> (singleVarDecl | desVarDecl) }
 
 param { definable }
 
-Params { "(" list<param>? ")" }
+optionalParam { definable DefOp<"="> expr }
+
+Params { "(" (param ("،" param)*)? ("،" optionalParam ("،" optionalParam)*)? "،"? ")" }
 
 FuncDecl { kw<"دالة"> VarDef Params Block }
 
