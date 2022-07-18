@@ -1,6 +1,6 @@
 {
   "name": "lezer-qatam",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A qatam lezer grammar",
   "main": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
