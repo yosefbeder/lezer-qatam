@@ -24,13 +24,13 @@ definable {
   ListDes
 }
 
-varDeclTail { DefOp<"="> expr end }
+varDeclTail { DefOp<"="> expr }
 
 singleVarDecl { VarDef (varDeclTail)? }
 
 desVarDecl { (ObjectDes | ListDes) varDeclTail }
 
-VarDecl { kw<"متغير"> (singleVarDecl | desVarDecl) }
+VarDecl { kw<"متغير"> (singleVarDecl | desVarDecl) ("،" (singleVarDecl | desVarDecl))* end }
 
 param { definable }
 
