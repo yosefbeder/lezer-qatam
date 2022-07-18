@@ -10,6 +10,8 @@ kw<word> { @specialize[@name={word}]<identifier, word> }
 
 list<item> { item ("،" item)* "،"? }
 
+doubleList<item1, item2> { item1 ("،" item1)* ("،" item2 ("،" item2)*)? "،"? }
+
 VarDef { identifier }
 
 ObjectDes { "{" list<(PropName DefOp<":"> definable) | VarDef>? "}" } 
@@ -34,7 +36,7 @@ param { definable }
 
 optionalParam { definable DefOp<"="> expr }
 
-Params { "(" (param ("،" param)*)? ("،" optionalParam ("،" optionalParam)*)? "،"? ")" }
+Params { "(" (doubleList<param, optionalParam> | list<optionalParam>)? ")" }
 
 FuncDecl { kw<"دالة"> VarDef Params Block }
 
