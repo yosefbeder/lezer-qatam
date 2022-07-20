@@ -22,6 +22,7 @@ export const highlight = styleTags({
   ArithOp: tags.arithmeticOperator,
   CmpOp: tags.compareOperator,
   LogicOp: tags.logicOperator,
+  'و أو': tags.operatorKeyword,
   '،': tags.separator,
   UpdateOp: tags.updateOperator,
   DefOp: tags.definitionOperator,

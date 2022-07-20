@@ -87,8 +87,8 @@ binaryExprTail {
   !times ArithOp<"*" | "/" | "%"> expr |
   !cmp CmpOp<">" | ">=" | "<" | "<="> expr |
   !eq CmpOp<"==" | "!="> expr |
-  !and LogicOp<"&&"> expr |
-  !or LogicOp<"||"> expr
+  !and "و" expr |
+  !or "أو" expr
 }
 
 LambdaParams {
@@ -170,7 +170,7 @@ DefOp<op> { op }
 
   LogicOp<op> { op }
 
-  "." "،" "|"
+  "." "،" "|" "و" "أو"
 
   "(" ")" "[" "]" "{" "}"
 }
